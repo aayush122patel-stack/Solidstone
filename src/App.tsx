@@ -247,7 +247,7 @@ const Hero = () => {
           <span className="inline-block px-4 py-1.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full text-xs font-bold tracking-widest uppercase mb-6">
             Building Excellence Since 1997
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-oswald text-white leading-tight mb-6 uppercase tracking-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-oswald text-white leading-tight mb-6 uppercase tracking-tight">
             Crafting Spaces That <span className="italic text-emerald-400">Inspire</span> Living
           </h1>
           <p className="text-lg text-white/70 mb-10 leading-relaxed max-w-2xl mx-auto">
@@ -274,7 +274,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-slate-800 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black/20 border border-slate-700 group flex flex-col md:flex-row"
+      className="bg-slate-800 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black/20 border border-slate-700 group flex flex-col md:flex-row"
     >
       <div className="md:w-2/5 relative overflow-hidden h-64 md:h-[360px]">
         <img 
@@ -293,10 +293,10 @@ const ProjectCard = ({ project }: { project: Project }) => {
           </span>
         </div>
       </div>
-      <div className="p-8 md:w-3/5 flex flex-col md:flex-row gap-8">
+      <div className="p-6 md:p-8 md:w-3/5 flex flex-col md:flex-row gap-8">
         <div className="flex-1">
-          <h3 className="text-2xl font-bold text-white mb-3">{project.title}</h3>
-          <p className="text-slate-400 mb-8 leading-relaxed">
+          <h3 className="text-xl md:text-2xl font-bold text-white mb-3">{project.title}</h3>
+          <p className="text-slate-400 mb-8 leading-relaxed text-sm md:text-base">
             {project.description}
           </p>
           <a 
@@ -311,11 +311,11 @@ const ProjectCard = ({ project }: { project: Project }) => {
         
         <div className="md:w-48 shrink-0 border-t md:border-t-0 md:border-l border-slate-700 pt-6 md:pt-0 md:pl-8">
           <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Amenities</h4>
-          <ul className="space-y-3">
+          <ul className="grid grid-cols-2 md:grid-cols-1 gap-3">
             {project.amenities.map((amenity, index) => (
               <li key={index} className="flex items-center gap-2 text-sm text-slate-300 font-medium">
-                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
-                {amenity}
+                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shrink-0"></div>
+                <span className="truncate">{amenity}</span>
               </li>
             ))}
           </ul>
@@ -370,7 +370,7 @@ const Footer = () => {
           <ul className="space-y-4 text-slate-400 text-sm">
             <li className="flex gap-3">
               <MapPin className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span>{ADDRESS}</span>
+              <span className="leading-relaxed">{ADDRESS}</span>
             </li>
             <li className="flex gap-3">
               <Phone className="w-5 h-5 text-emerald-500 shrink-0" />
@@ -378,7 +378,7 @@ const Footer = () => {
             </li>
             <li className="flex gap-3">
               <Mail className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span>info@solidstonebuilders.com</span>
+              <span className="break-all">info@solidstonebuilders.com</span>
             </li>
           </ul>
         </div>
@@ -546,10 +546,10 @@ export default function App() {
       {/* Contact Section */}
       <section id="contact" className="py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="bg-slate-900 rounded-[3rem] overflow-hidden flex flex-col lg:flex-row">
-            <div className="lg:w-1/2 p-12 lg:p-20 bg-emerald-500 text-white">
+          <div className="bg-slate-900 rounded-[2rem] md:rounded-[3rem] overflow-hidden flex flex-col lg:flex-row">
+            <div className="lg:w-1/2 p-8 md:p-12 lg:p-20 bg-emerald-500 text-white">
               <span className="text-emerald-100 font-bold text-xs uppercase tracking-widest mb-4 block">Get In Touch</span>
-              <h2 className="text-4xl font-serif mb-8">Ready to Find Your New Home?</h2>
+              <h2 className="text-3xl md:text-4xl font-serif mb-8">Ready to Find Your New Home?</h2>
               <p className="text-emerald-50/80 mb-12">Visit our office or reach out to us directly. Our property experts are ready to assist you.</p>
               
               <div className="space-y-8">
@@ -559,16 +559,16 @@ export default function App() {
                   </div>
                   <div>
                     <p className="text-sm text-emerald-100 mb-1 font-medium">Call Us</p>
-                    <p className="text-xl font-bold">{PHONE_NUMBER}</p>
+                    <p className="text-lg md:text-xl font-bold">{PHONE_NUMBER}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
                     <Mail className="w-6 h-6" />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <p className="text-sm text-emerald-100 mb-1 font-medium">Email Us</p>
-                    <p className="text-xl font-bold">info@solidstonebuilders.com</p>
+                    <p className="text-lg md:text-xl font-bold break-all sm:break-normal">info@solidstonebuilders.com</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -577,13 +577,13 @@ export default function App() {
                   </div>
                   <div>
                     <p className="text-sm text-emerald-100 mb-1 font-medium">Visit Us</p>
-                    <p className="text-xl font-bold">{ADDRESS}</p>
+                    <p className="text-lg md:text-xl font-bold leading-tight">{ADDRESS}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="lg:w-1/2 p-12 lg:p-20">
+            <div className="lg:w-1/2 p-8 md:p-12 lg:p-20">
               <h3 className="text-2xl font-serif text-white mb-8">Send us a Message</h3>
               <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
