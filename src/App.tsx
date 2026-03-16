@@ -11,6 +11,7 @@ import {
   Users, 
   Menu, 
   X,
+  Check,
   ArrowUpRight,
   Instagram,
   Facebook,
@@ -378,7 +379,7 @@ const Footer = () => {
             </li>
             <li className="flex gap-3">
               <Mail className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span className="break-all">info@solidstonebuilders.com</span>
+              <span className="text-[10px] sm:text-xs break-all">info@solidstonebuilders.com</span>
             </li>
           </ul>
         </div>
@@ -408,6 +409,7 @@ const Footer = () => {
 
 export default function App() {
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setShowBackToTop(window.scrollY > 500);
@@ -417,6 +419,15 @@ export default function App() {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    // Reset confirmation after 5 seconds
+    setTimeout(() => setIsSubmitted(false), 5000);
+    // Reset form
+    (e.target as HTMLFormElement).reset();
   };
 
   return (
@@ -568,7 +579,7 @@ export default function App() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm text-emerald-100 mb-1 font-medium">Email Us</p>
-                    <p className="text-lg md:text-xl font-bold break-all sm:break-normal">info@solidstonebuilders.com</p>
+                    <p className="text-xs md:text-lg font-bold break-all sm:break-normal">info@solidstonebuilders.com</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -585,43 +596,80 @@ export default function App() {
 
             <div className="lg:w-1/2 p-8 md:p-12 lg:p-20">
               <h3 className="text-2xl font-serif text-white mb-8">Send us a Message</h3>
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <input 
-                    type="text" 
-                    placeholder="Full Name" 
-                    required
-                    pattern="[A-Za-z\s]+"
-                    title="Please enter only alphabets"
-                    className="bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-emerald-500 transition-colors w-full"
-                  />
-                  <input 
-                    type="email" 
-                    placeholder="Email Address" 
-                    required
-                    className="bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-emerald-500 transition-colors w-full"
-                  />
-                </div>
-                <input 
-                  type="tel" 
-                  placeholder="Phone Number (10 digits)" 
-                  required
-                  pattern="[0-9]{10}"
-                  title="Please enter a valid 10-digit mobile number"
-                  className="bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white w-full focus:outline-none focus:border-emerald-500 transition-colors"
-                />
-                <textarea 
-                  placeholder="Message (Optional)" 
-                  rows={4}
-                  className="bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white w-full focus:outline-none focus:border-emerald-500 transition-colors resize-none"
-                ></textarea>
-                <button 
-                  type="submit"
-                  className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-xl font-bold transition-all shadow-xl shadow-emerald-500/20"
-                >
-                  Send Message
-                </button>
-              </form>
+              <AnimatePresence mode="wait">
+                {isSubmitted ? (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-8 text-center"
+                  >
+                    <div className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Check className="text-white w-8 h-8" />
+                    </div>
+                    <h4 className="text-xl font-bold text-white mb-2">Message Sent!</h4>
+                    <p className="text-emerald-50/70 text-sm">Thank you for reaching out. Our team will get back to you shortly.</p>
+                    <button 
+                      onClick={() => setIsSubmitted(false)}
+                      className="mt-6 text-emerald-400 text-xs font-bold uppercase tracking-widest hover:text-emerald-300 transition-colors"
+                    >
+                      Send Another Message
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.form 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="space-y-6" 
+                    onSubmit={handleSubmit}
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <input 
+                        type="text" 
+                        placeholder="Full Name" 
+                        required
+                        pattern="[A-Za-z\s]+"
+                        title="Please enter only alphabets"
+                        onInput={(e) => {
+                          const target = e.target as HTMLInputElement;
+                          target.value = target.value.replace(/[^A-Za-z\s]/g, '');
+                        }}
+                        className="bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-emerald-500 transition-colors w-full"
+                      />
+                      <input 
+                        type="email" 
+                        placeholder="Email Address" 
+                        required
+                        className="bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-emerald-500 transition-colors w-full"
+                      />
+                    </div>
+                    <input 
+                      type="tel" 
+                      placeholder="Phone Number (10 digits)" 
+                      required
+                      pattern="[0-9]{10}"
+                      title="Please enter a valid 10-digit mobile number"
+                      onInput={(e) => {
+                        const target = e.target as HTMLInputElement;
+                        target.value = target.value.replace(/[^0-9]/g, '');
+                      }}
+                      className="bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white w-full focus:outline-none focus:border-emerald-500 transition-colors"
+                    />
+                    <textarea 
+                      placeholder="Message (Optional)" 
+                      rows={4}
+                      className="bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white w-full focus:outline-none focus:border-emerald-500 transition-colors resize-none"
+                    ></textarea>
+                    <button 
+                      type="submit"
+                      className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-xl font-bold transition-all shadow-xl shadow-emerald-500/20"
+                    >
+                      Send Message
+                    </button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>
